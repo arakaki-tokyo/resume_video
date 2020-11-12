@@ -1,0 +1,34 @@
+{
+    "name": "ResumeVideo",
+    "description": "resume video from the continuation",
+    "version": "1.0",
+    "manifest_version": 2,
+    "permissions": [
+        "storage",
+        "activeTab",
+        "contextMenus",
+        "<all_urls>"
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "commands": {
+        "stock_video": {
+            "description": "Stock playing video",
+            "suggested_key": {
+                "default": "Ctrl+Shift+S"
+            }
+        }
+    },
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    }
+}
