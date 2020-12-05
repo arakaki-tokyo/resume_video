@@ -1,0 +1,69 @@
+@startuml
+title resume sequence
+actor user as u
+database strage as s order 15
+participant PopUp as p order 0
+participant Tab as c order 35
+participant Background as b order 25
+
+==display Popup==
+u -> p**: open extension pop-up
+activate p
+p -[#transparent]->p:
+activate p
+p -> s: chrome.storage.local.get()
+deactivate p
+p <- s: callback
+note left: list videos
+activate p
+deactivate p
+
+
+==resume video==
+u -> p: click one of videos
+activate p
+p -> p: deleteVideo()
+activate p
+p -> s: chrome.storage.local.set()
+deactivate p
+p -> b: chrome.runtime.sendMessage()
+deactivate p
+activate b
+
+b -> c**: chrome.tabs.create()
+c --> p: 
+note left
+ popup killed when 
+ the selected tab changes
+ end note
+destroy p
+deactivate b
+
+b <- c: callback
+activate b
+loop 40 times(one minute)
+    note over b #ccc: 1500ms wait
+    
+    b -> c: chrome.tabs.executeScript()
+    activate c
+    b <- c: callback
+    deactivate c
+
+    alt can`t operate video tab
+        note right of b: continue loop
+
+    else success to resume
+    note over b #ccc: 1500ms wait
+        b -> c: chrome.tabs.executeScript()
+        activate c
+        deactivate c
+    note over b #ccc: 1500ms wait
+        b -> c: chrome.tabs.executeScript()
+        activate c
+        deactivate c
+        note right of b: break loop
+        
+    end
+end
+
+@enduml

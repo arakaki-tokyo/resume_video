@@ -1,0 +1,35 @@
+@startuml stock_seq
+title stock sequence
+
+actor user as u
+database storage as s
+participant Background as b
+participant Tab as t
+
+u -> b: stock video
+activate b
+
+b -> t: chrome.tabs.executeScript()
+activate t
+deactivate b
+b -[#transparent]-> s**:
+b <- t: callback
+deactivate t
+activate b
+
+b -> s: chrome.storage.local.get()
+note right: get current vide list
+deactivate b
+b <- s: callback
+activate b
+b -> s: chrome.storage.local.set()
+note right: set new vide list
+deactivate b
+b <- s: callback
+activate b
+
+
+b -> t !!: chrome.tabs.remove()
+
+
+@enduml
