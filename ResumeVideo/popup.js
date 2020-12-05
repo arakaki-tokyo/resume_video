@@ -18,18 +18,17 @@ chrome.storage.local.get(
     'videos',
     (result) => {
         videoList = result.videos;
-        console.log(videoListContainer);
         let content = "<ul>"
 
         for (const video of result.videos) {
             
             const iCurrentTime = parseInt(video.currentTime);
-            const sCurrentTimeHour = String(Math.floor(iCurrentTime / 60)).padStart(2, "0");
-            const sCurrentTimeMinutes = String(iCurrentTime % 60).padStart(2, "0");
+            const sCurrentTimeMinutes = String(Math.floor(iCurrentTime / 60)).padStart(2, "0");
+            const sCurrentTimeSeconds = String(iCurrentTime % 60).padStart(2, "0");
 
             content += `
                 <li>
-                    <p class="timeStamp">&#x23EF;<b>${sCurrentTimeHour}:${sCurrentTimeMinutes}</b> (${new MyDate(video.timeStamp).strftime("%Y/%m/%d %H:%M")})</p>
+                    <p class="timeStamp">&#x23EF;<b>${sCurrentTimeMinutes}:${sCurrentTimeSeconds}</b> (${new MyDate(video.timeStamp).strftime("%Y/%m/%d %H:%M")})</p>
                     <div class="linkContainer">
                         <a class="videoLink" href="${video.url}" title="${video.url}" timeStamp="${video.timeStamp}" currentTime="${video.currentTime}">
                             <img src="${video.f}">

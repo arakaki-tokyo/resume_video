@@ -74,29 +74,27 @@ const contextMenuTable = {
 chrome.runtime.onInstalled.addListener((details) => {
     // Style badge
     const badgeBackgroundColor = { color: "#360" };
-    chrome.browserAction.setBadgeBackgroundColor(badgeBackgroundColor, () => {
-    });
+    chrome.browserAction.setBadgeBackgroundColor(badgeBackgroundColor);
 
     // Initialize storage
     chrome.storage.local.set({ videos: new Array() });
 
     // Create contextMenus
-    for (const item in contextMenuTable) {
+    for (const item in contextMenuTable)
         chrome.contextMenus.create(contextMenuTable[item].prop);
-    }
 
 });
-    // Add Listener to contextMenus
-    chrome.contextMenus.onClicked.addListener((info, tab) => {
-        console.log("some contextMenu clicked.", info, tab);
+// Add Listener to contextMenus
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    console.log("some contextMenu clicked.", info, tab);
 
-        for (const item in contextMenuTable) {
-            if (info.menuItemId === contextMenuTable[item].prop.id) {
-                contextMenuTable[item].func(tab);
-                break;
-            }
+    for (const item in contextMenuTable) {
+        if (info.menuItemId === contextMenuTable[item].prop.id) {
+            contextMenuTable[item].func(tab);
+            break;
         }
-    });
+    }
+});
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
