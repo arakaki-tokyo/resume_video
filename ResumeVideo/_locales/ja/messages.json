@@ -1,0 +1,14 @@
+{
+    "description":{
+        "message": "サイト上の動画を続きから再生します。"
+    },
+    "stock_video":{
+        "message": "再生中の動画を保存"
+    },
+    "delete_all":{
+        "message": "全ての動画を削除"
+    },
+    "delete_all_msg":{
+        "message": "全ての動画を削除してよろしいですか？"
+    }
+}
