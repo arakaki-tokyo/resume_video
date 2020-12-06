@@ -54,7 +54,7 @@ const StockVideo = (tab) => {
 };
 
 const deleteAll = (tab) => {
-    if (!confirm("Are you sure you want to delete all videos?"))
+    if (!confirm(chrome.i18n.getMessage("delete_all_msg")))
         return;
     chrome.storage.local.set({ videos: new Array() });
     chrome.browserAction.setBadgeText({ text: "" });
@@ -62,11 +62,11 @@ const deleteAll = (tab) => {
 
 const contextMenuTable = {
     stockVideo: {
-        prop: { id: "stockVideo", title: "Stock playing video", contexts: ["all"] },
+        prop: { id: "stockVideo", title: chrome.i18n.getMessage("stock_video"), contexts: ["all"] },
         func: StockVideo
     },
     deleteAll: {
-        prop: { id: "deleteAll", title: "Delete all videos", contexts: ["browser_action"] },
+        prop: { id: "deleteAll", title: chrome.i18n.getMessage("delete_all"), contexts: ["browser_action"] },
         func: deleteAll
     }
 };

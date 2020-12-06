@@ -1,0 +1,14 @@
+{
+    "description":{
+        "message": "Resume video from the continuation."
+    },
+    "stock_video":{
+        "message": "Stock playing video"
+    },
+    "delete_all":{
+        "message": "Delete all videos"
+    },
+    "delete_all_msg":{
+        "message": "Are you sure you want to delete all videos?"
+    }
+}

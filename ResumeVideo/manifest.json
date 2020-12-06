@@ -1,6 +1,6 @@
 {
     "name": "ResumeVideo",
-    "description": "resume video from the continuation",
+    "description": "__MSG_description__",
     "version": "1.0",
     "manifest_version": 2,
     "permissions": [
@@ -9,6 +9,7 @@
         "contextMenus",
         "<all_urls>"
     ],
+    "default_locale":"en",
     "browser_action": {
         "default_popup": "popup.html"
     },
