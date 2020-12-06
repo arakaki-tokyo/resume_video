@@ -10,5 +10,11 @@
     },
     "delete_all_msg":{
         "message": "全ての動画を削除してよろしいですか？"
+    },
+    "allow_permission":{
+        "message": "続きから再生を許可"
+    },
+    "allow_permission_help":{
+        "message": "権限を追加しない場合、動画ページを開くだけでレジューム再生はできません。"
     }
 }

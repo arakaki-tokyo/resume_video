@@ -20,7 +20,9 @@ chrome.permissions.contains({origins: ['<all_urls>']}, result => {
     }else{
         const optionalPermission = $("optionalPermission");
         const btn = document.createElement("button");
-        btn.innerHTML = "続きから再生を許可";
+        btn.innerHTML = chrome.i18n.getMessage("allow_permission");
+        btn.style.cursor = "help";
+        btn.setAttribute("title", chrome.i18n.getMessage("allow_permission_help"));
         btn.addEventListener("click", () => {
             chrome.permissions.request({origins: ['<all_urls>']});
         });

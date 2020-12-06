@@ -10,5 +10,11 @@
     },
     "delete_all_msg":{
         "message": "Are you sure you want to delete all videos?"
+    },
+    "allow_permission":{
+        "message": "Allow permissions to resume-play."
+    },
+    "allow_permission_help":{
+        "message": "Whithout this permission, the extension can only open video page (don't resume-play)."
     }
 }
