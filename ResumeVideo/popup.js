@@ -14,6 +14,20 @@ class MyDate extends Date {
 const videoListContainer = $("videoListContainer");
 let videoList;
 
+chrome.permissions.contains({origins: ['<all_urls>']}, result => {
+    if(result){
+        // do nothing
+    }else{
+        const optionalPermission = $("optionalPermission");
+        const btn = document.createElement("button");
+        btn.innerHTML = "続きから再生を許可";
+        btn.addEventListener("click", () => {
+            chrome.permissions.request({origins: ['<all_urls>']});
+        });
+        optionalPermission.appendChild(btn);
+    }
+});
+
 chrome.storage.local.get(
     'videos',
     (result) => {

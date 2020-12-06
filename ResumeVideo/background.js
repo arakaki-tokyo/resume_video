@@ -101,43 +101,47 @@ chrome.runtime.onMessage.addListener(
         chrome.tabs.create(
             { url: request.videoUrl, active: true },
             (tab) => {
-                (function resume(cnt) {
-                    function execResume(callbackForScript) {
-                        setTimeout(() => {
-                            chrome.tabs.executeScript(
-                                tab.id,
-                                {
-                                    allFrames: true,
-                                    code: `
+                chrome.permissions.contains({ origins: ['<all_urls>'] }, result => {
+                    if (result) {
+                        (function resume(cnt) {
+                            function execResume(callbackForScript) {
+                                setTimeout(() => {
+                                    chrome.tabs.executeScript(
+                                        tab.id,
+                                        {
+                                            allFrames: true,
+                                            code: `
                                         vs = document.getElementsByTagName("video");
                                         if (vs[0].currentTime < ${request.currentTime})
                                             vs[0].currentTime = ${request.currentTime};
                                         vs[0].currentTime;
                                     `
-                                },
-                                callbackForScript
-                            );
-                        }, 1500);
-                    };
+                                        },
+                                        callbackForScript
+                                    );
+                                }, 1500);
+                            };
 
-                    execResume(result => {
-                        console.log(result);
-                        if (cnt <= 0) {
-                            // execute, one more time!
-                            execResume(null);
-                            return;
-                        }
-                        cnt--;
-                        if (result.every(i => i == null))
-                            resume(cnt);
-                        else {
-                            // execute, "two" more times!
-                            resume(0);
-                        }
-                    });
-                })(40);
+                            execResume(result => {
+                                console.log(result);
+                                if (cnt <= 0) {
+                                    // execute, one more time!
+                                    execResume(null);
+                                    return;
+                                }
+                                cnt--;
+                                if (result.every(i => i == null))
+                                    resume(cnt);
+                                else {
+                                    // execute, "two" more times!
+                                    resume(0);
+                                }
+                            });
+                        })(40);
+                    }
+                });
             }
-        )
+        );
     }
 );
 
