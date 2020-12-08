@@ -104,39 +104,21 @@ chrome.runtime.onMessage.addListener(
                 chrome.permissions.contains({ origins: ['<all_urls>'] }, result => {
                     if (result) {
                         (function resume(cnt) {
-                            function execResume(callbackForScript) {
-                                setTimeout(() => {
-                                    chrome.tabs.executeScript(
-                                        tab.id,
-                                        {
-                                            allFrames: true,
-                                            code: `
-                                        vs = document.getElementsByTagName("video");
-                                        if (vs[0].currentTime < ${request.currentTime})
-                                            vs[0].currentTime = ${request.currentTime};
-                                        vs[0].currentTime;
-                                    `
-                                        },
-                                        callbackForScript
-                                    );
-                                }, 1500);
-                            };
-
-                            execResume(result => {
-                                console.log(result);
-                                if (cnt <= 0) {
-                                    // execute, one more time!
-                                    execResume(null);
-                                    return;
-                                }
-                                cnt--;
-                                if (result.every(i => i == null))
-                                    resume(cnt);
-                                else {
-                                    // execute, "two" more times!
-                                    resume(0);
-                                }
-                            });
+                            setTimeout(() => {
+                                chrome.tabs.executeScript(
+                                    tab.id,
+                                    {
+                                        allFrames: true,
+                                        code: `
+                                            vs = document.getElementsByTagName("video");
+                                            if (vs[0] != undefined && vs[0].currentTime < ${request.currentTime})
+                                                vs[0].currentTime = ${request.currentTime};
+                                        `
+                                    }
+                                );
+                                if (cnt > 0)
+                                    resume(--cnt);
+                            }, 1500);
                         })(40);
                     }
                 });

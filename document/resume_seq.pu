@@ -31,9 +31,10 @@ deactivate p
 activate b
 
 b -> c**: chrome.tabs.create()
+activate c
 c --> p: 
 note left
- popup killed when 
+ popup is killed when 
  the selected tab changes
  end note
 destroy p
@@ -46,24 +47,7 @@ loop 40 times(one minute)
     
     b -> c: chrome.tabs.executeScript()
     activate c
-    b <- c: callback
     deactivate c
-
-    alt can`t operate video tab
-        note right of b: continue loop
-
-    else success to resume
-    note over b #ccc: 1500ms wait
-        b -> c: chrome.tabs.executeScript()
-        activate c
-        deactivate c
-    note over b #ccc: 1500ms wait
-        b -> c: chrome.tabs.executeScript()
-        activate c
-        deactivate c
-        note right of b: break loop
-        
-    end
 end
 
 @enduml
