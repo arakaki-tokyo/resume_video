@@ -1,7 +1,5 @@
 const StockVideo = (tab) => {
-    console.log(tab);
     // find video tag
-    console.log("call: executeScript.");
     chrome.tabs.executeScript(
         {
             allFrames: true,
@@ -16,16 +14,13 @@ const StockVideo = (tab) => {
             `
         },
         (result) => {
-            console.log("back: executeScript.", result);
             // The result is array, having returns of each flame.
             // If flames don't contain valid video tag, the return value is null.
             for (const value of result) {
                 if (value !== null) {
-                    console.log("call: local storage get videos");
                     chrome.storage.local.get(
                         ['videos'],
                         (result) => {
-                            console.log("back: local storage get videos", result);
                             const newVideos = result.videos;
                             newVideos.push({
                                 timeStamp: Date.now(),
@@ -35,11 +30,9 @@ const StockVideo = (tab) => {
                                 f: tab.favIconUrl
                             });
 
-                            console.log("call: local storage set videos");
                             chrome.storage.local.set(
                                 { videos: newVideos },
                                 () => {
-                                    console.log("back: local storage set videos");
                                     chrome.browserAction.setBadgeText({ text: String(newVideos.length) });
                                     chrome.tabs.remove(tab.id);
                                 }
@@ -86,7 +79,6 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 // Add Listener to contextMenus
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    console.log("some contextMenu clicked.", info, tab);
 
     for (const item in contextMenuTable) {
         if (info.menuItemId === contextMenuTable[item].prop.id) {
@@ -111,8 +103,10 @@ chrome.runtime.onMessage.addListener(
                                         allFrames: true,
                                         code: `
                                             vs = document.getElementsByTagName("video");
-                                            if (vs[0] != undefined && vs[0].currentTime < ${request.currentTime})
-                                                vs[0].currentTime = ${request.currentTime};
+                                            for(v of vs){
+                                                if (v != undefined && v.currentSrc != "" && v.currentTime < ${request.currentTime})
+                                                    v.currentTime = ${request.currentTime};
+                                            }
                                         `
                                     }
                                 );
@@ -128,6 +122,5 @@ chrome.runtime.onMessage.addListener(
 );
 
 chrome.commands.onCommand.addListener(function (command, tab) {
-    console.log('Command:', command);
     StockVideo(tab);
 });

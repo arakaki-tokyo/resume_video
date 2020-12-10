@@ -6,6 +6,7 @@ database storage as s
 participant Background as b
 participant Tab as t
 
+activate t
 u -> b: stock video
 activate b
 
